@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 
-namespace PU3
+namespace APK
 {
     public partial class Profile : Form
     {
@@ -12,19 +12,6 @@ namespace PU3
         {
             InitializeComponent();
             curr = u;
-            Db db = new();
-            Image avtr;
-            if (db.GetAvatar(u.GetId()) != "NoAvatar")
-            {
-                avtr = Image.FromFile(string.Format(@"img\avatars\{0}\{1}", curr.GetId(), db.GetAvatar(u.GetId())));
-                this.pictureBox1.Image = new Bitmap(avtr,100,100);
-            }
-            else
-            {
-                avtr = Image.FromFile(@"NoAvatar.png");
-                
-            }
-            this.pictureBox1.Image = new Bitmap(avtr, 100, 100);
         }
         
         private void EditProfileSwitch(bool status) // True = EditMode OFF, false = EditMode ON
@@ -50,7 +37,7 @@ namespace PU3
 
         private void button3_Click(object sender, EventArgs e)
         {
-            OpenFileDialog open = new OpenFileDialog();
+           /* OpenFileDialog open = new OpenFileDialog();
             open.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp";
             if (open.ShowDialog() == DialogResult.OK)
             {
@@ -71,8 +58,8 @@ namespace PU3
                 {
                     MessageBox.Show("Failo pavadinimas netinka.");
                 }
-
-            }
+           
+            }*/
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -93,6 +80,7 @@ namespace PU3
             else
             {
                 db.SetPwd(NewPwd, curr.GetId());
+                MessageBox.Show("Sekmingai!");
             }
         }
 

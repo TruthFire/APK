@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace PU3
+namespace APK
 {
     public partial class Auth : Form
     {
@@ -23,6 +23,10 @@ namespace PU3
                 mForm.Show();
                 this.Hide();
 
+            }
+            else
+            {
+                label3.Text = "Tokio vartotojo nera.";
             }
 
         }

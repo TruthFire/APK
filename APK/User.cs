@@ -1,4 +1,4 @@
-﻿namespace PU3
+﻿namespace APK
 {
     public class User : Person
     {
@@ -7,21 +7,19 @@
         protected string Pwd { get; set; }
         protected int Group { get; set; }
         protected int Id { get; set; }
-        protected string Avatar = null;
-        bool isAdmin { get; set;  }
+        protected string S_group { get; set; }
 
 
-        public User(Person p, string nick, string pwd, int group)
+        public User(Person p, string nick, string pwd, int group, string s_group = null)
         {
             Name = p.GetName();
             Surename = p.GetSurename();
-            Dob = p.GetDob();
+            S_group = s_group;
             Nick = nick;
             Pwd = pwd;
             Group = group;
             Id = GetId();
-            Avatar = GetAvatar();
-            isAdmin = false;
+            
         }
 
         public string GetNick()
@@ -46,24 +44,6 @@
                 this.Id = DataBase.TryAuth(Nick, Pwd);
             }
             return this.Id;
-        }
-
-        public void SetAvatar(string avtr)
-        {
-            Avatar = avtr;
-            Db db = new();
-            db.UpdateAvatar(Id, avtr);
-
-        }
-
-        private string GetAvatar()
-        {
-            if (Avatar == null)
-            {
-                Db db = new();
-                Avatar = db.GetAvatar(Id);
-            }
-            return Avatar;
         }
 
         public bool IsAdmin()

@@ -1,6 +1,7 @@
 ﻿using System;
 using MySql.Data.MySqlClient;
 using System.Data;
+using System.Collections.Generic;
 
 /* CREATE TABLE "User" (
 	"id"	INTEGER NOT NULL,
@@ -16,28 +17,36 @@ using System.Data;
 */
 
 
-namespace PU3
+namespace APK
 {
     public class Db
     {
-        MySqlConnection dbConnection = new(@"server=localhost;userid=root;password=;database=PU");
+        MySqlConnection dbConnection = new(@"server=localhost;userid=root;password=;database=APK");
         public Db()
         {
    
         }
 
          public void CreateUser(User u)
-         { 
-            string sql = string.Format(
-            "INSERT INTO `User`(`nick`, `password`, `name`, `surename`, `dob`, `user_group`, `avatar`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', 1, 'NoAvatar');",
-            u.GetNick(), u.GetPwd(), u.GetName(), u.GetSurename(), u.GetDob()
-            );
+         {
+            string sql = "";//= string.Format(
+            //"INSERT INTO `users`(`login`, `password`, `name`, `surename`, `u_group`) VALUES ('{0}', '{1}', '{2}', '{3}', 1,);",
+           // u.GetNick(), u.GetPwd(), u.GetName(), u.GetSurename()
+           // );
+            if(u.GetGroup() == 1)
+            {
+                sql = string.Format("INSERT INTO `users`" +
+                    "(`login`, `password`, `name`, `surename`, `u_group`, `s_group`, `l_rang`)" +
+                    " VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}')",
+                    u.GetNick(),u.GetName(),u.GetSurename(), u.GetGroup(), DBNull.Value,"asd"
+                    );
+            }
             Exec(sql);
          }
 
         public bool CheckNick(string nick)
         {
-            string sql = string.Format("SELECT `id` FROM `User` where `nick`='{0}'", nick);
+            string sql = string.Format("SELECT `id` FROM `Users` where `login`='{0}'", nick);
             dbConnection.Open();
             MySqlCommand cmd = new(sql, dbConnection);
             bool rez = Convert.ToInt32(cmd.ExecuteScalar()) != 0;
@@ -47,9 +56,9 @@ namespace PU3
         }
 
 
-        public int TryAuth(string name, string pwd)
+        public int TryAuth(string nick, string pwd)
         { 
-            string sql = string.Format("SELECT `id` FROM `User` WHERE (`nick`='{0}' AND `password`='{1}')", name, pwd);
+            string sql = string.Format("SELECT `id` FROM `Users` WHERE (`login`='{0}' AND `password`='{1}')", nick, pwd);
             dbConnection.Open();
             MySqlCommand cmd = new(sql, dbConnection);
             int s = Convert.ToInt32(cmd.ExecuteScalar());
@@ -60,7 +69,7 @@ namespace PU3
         public User GetUser(string nick, string pwd)
         {
 
-            string sql = string.Format("SELECT * FROM `User` WHERE `id` = '{0}'", TryAuth(nick, pwd));
+            string sql = string.Format("SELECT * FROM `Users` WHERE `id` = '{0}'", TryAuth(nick, pwd));
             dbConnection.Open();
             MySqlCommand cmd = new(sql, dbConnection);
             MySqlDataReader rdr = cmd.ExecuteReader();
@@ -68,11 +77,15 @@ namespace PU3
             {
                 string name = rdr["name"].ToString();
                 string surename = rdr["surename"].ToString();
-                DateTime dob = Convert.ToDateTime(rdr["dob"]);
-                int Group = Convert.ToInt32(rdr["user_group"]);
-                string avtr = rdr["avatar"].ToString();
-                Person p = new(name, surename, dob);
-                User u = new(p, nick, pwd, Group);
+               // DateTime dob = Convert.ToDateTime(rdr["dob"]);
+                int Group = Convert.ToInt32(rdr["u_group"]);
+                string s_group = null;
+                if(Group == 1)
+                {
+                    s_group = rdr["s_group"].ToString();
+                }
+                Person p = new(name, surename);
+                User u = new(p, nick, pwd, Group, s_group);
                 dbConnection.Close();
                 return u;
             }
@@ -85,16 +98,16 @@ namespace PU3
 
         public void DeleteUser(int id)
         {
-            string sql = String.Format("DELETE FROM `User` WHERE `id` = '{0}'", id);
+            string sql = String.Format("DELETE FROM `Users` WHERE `id` = '{0}'", id);
             Exec(sql);
         }
 
-        public void UpdateAvatar(int id, string fn)
+        /*public void UpdateAvatar(int id, string fn)
         {
             string sql = String.Format("UPDATE `User` SET `avatar` = '{0}' WHERE `id` = {1}", fn, id);
             Exec(sql); 
             
-        }
+        }*/
 
         protected void Exec(string sql)
         {
@@ -107,7 +120,7 @@ namespace PU3
         public bool CheckPwd(int id, string pwd)
         {
             
-            string sql = String.Format("SELECT `password` FROM `User` WHERE `id` = '{0}'", id);
+            string sql = String.Format("SELECT `password` FROM `Users` WHERE `id` = '{0}'", id);
             dbConnection.Open();
             MySqlCommand cmd = new(sql, dbConnection);
             MySqlDataReader rdr = cmd.ExecuteReader();
@@ -122,16 +135,16 @@ namespace PU3
 
         public void SetPwd(string newPwd, int id)
         {
-            string sql = String.Format("UPDATE `User` SET `password` = {0} WHERE id={1}", newPwd, id);
+            string sql = String.Format("UPDATE `Users` SET `password` = {0} WHERE id={1}", newPwd, id);
             dbConnection.Open();
             MySqlCommand cmd = new(sql, dbConnection);
             cmd.ExecuteNonQuery();
             dbConnection.Close();
         }
         
-        public string GetAvatar(int id)
+        /*public string GetAvatar(int id)
         {
-            string sql = string.Format("SELECT `avatar` FROM `User` where `id` = '{0}'", id);
+            string sql = string.Format("SELECT `avatar` FROM `Users` where `id` = '{0}'", id);
             dbConnection.Open();
             MySqlCommand cmd = new(sql, dbConnection);
             MySqlDataReader rdr = cmd.ExecuteReader();
@@ -142,13 +155,13 @@ namespace PU3
             }
             dbConnection.Close();
             return avtr;
-        }
+        }*/
 
-        public DataTable FillGridView()
+        public DataTable FillUserGridView()
         {
             dbConnection.Open();
             MySqlDataAdapter Da = new();
-            string sql = "SELECT `id`, `nick`, `name`, `surename` FROM `User`";
+            string sql = "SELECT `id`, `login`, `name`, `surename`, `s_group` FROM `Users` WHERE `u_group`=1";
             Da.SelectCommand = new MySqlCommand(sql, dbConnection);
             DataTable dt = new();
             Da.Fill(dt);
@@ -156,6 +169,23 @@ namespace PU3
             return dt;
         }
 
+        public string[] getStudGroupList()
+        {
+            List<String> Groups = new List<String>();
+
+            string sql = "SELECT `group_name` FROM `s_groups`";
+            dbConnection.Open();
+            MySqlCommand cmd = new(sql, dbConnection);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                Groups.Add(rdr["group_name"].ToString());
+            }
+            dbConnection.Close();
+            return Groups.ToArray();
+
+        }
 
     }
 }

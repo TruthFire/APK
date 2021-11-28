@@ -1,5 +1,5 @@
 ﻿
-namespace PU3
+namespace APK
 {
     partial class Profile
     {

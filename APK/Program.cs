@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace PU3
+namespace APK
 {
     static class Program
     {

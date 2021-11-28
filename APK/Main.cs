@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace PU3
+namespace APK
 {
     public partial class Main : Form
     {
@@ -11,7 +11,7 @@ namespace PU3
         {
             InitializeComponent();
             currentUser = u;
-            if (currentUser.GetGroup() == 2)
+            if (currentUser.GetGroup() == 3)
             {
                 button2.Visible = true;
             }

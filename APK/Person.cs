@@ -1,27 +1,27 @@
 ﻿using System;
 
-namespace PU3
+namespace APK
 {
     public class Person
     {
 
         protected string Name, Surename;
-        protected DateTime Dob;
+        //protected DateTime Dob;
 
 
-        public Person(string name, string surename, DateTime dob)
+        public Person(string name, string surename)
         {
             Name = name;
             Surename = surename;
-            Dob = dob;
+          //  Dob = dob;
         }
 
         public Person() { }
 
-        public string GetAge()
+        /*public string GetAge()
         {
             return DateTime.Now.AddYears(-(Dob.Year + Convert.ToInt32(IsBdBeen()))).ToString("yy");
-        }
+        }*/
 
         public string GetName()
         {
@@ -31,7 +31,7 @@ namespace PU3
         {
             return Surename;
         }
-        public DateTime GetDob()
+       /* public DateTime GetDob()
         {
             return Dob;
         }
@@ -51,11 +51,11 @@ namespace PU3
                 rez = true;
 
             return rez;
-        }
+        }*/
 
         public string PrintInfo()
         {
-            string s = "Vardas: " + Name + "\nPavarde: " + Surename + "\nAmžius: " + GetAge() + "\nDienus iki gimtadienio: " + DaysToBd();
+            string s = "Vardas: " + Name + "\nPavarde: " + Surename;
             return s;
         }
     }

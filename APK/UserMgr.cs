@@ -40,7 +40,7 @@ namespace APK
         private void button1_Click(object sender, EventArgs e)
         {
             AddUsr au = new();
-            au.Show();
+            au.Show(); //
         }
     }
 }

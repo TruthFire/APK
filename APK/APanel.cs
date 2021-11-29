@@ -27,6 +27,19 @@ namespace APK
             this.Hide();
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SGroupMgr sgm = new(curr);
+            sgm.Show();
+            this.Hide();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            AddSubject a_s = new();
+            a_s.Show();
+        }
+
         /*public void UpdateDg()
         {
             Db db = new();

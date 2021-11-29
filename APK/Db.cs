@@ -38,7 +38,23 @@ namespace APK
                 sql = string.Format("INSERT INTO `users`" +
                     "(`login`, `password`, `name`, `surename`, `u_group`, `s_group`, `l_rang`)" +
                     " VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}')",
-                    u.GetNick(),u.GetName(),u.GetSurename(), u.GetGroup(), DBNull.Value,"asd"
+                    u.GetNick(), u.GetPwd(), u.GetName(),u.GetSurename(), u.GetGroup(), u.GetS_Group(), DBNull.Value
+                    );
+            }
+            if (u.GetGroup() == 2)
+            {
+                sql = string.Format("INSERT INTO `users`" +
+                    "(`login`, `password`, `name`, `surename`, `u_group`, `s_group`, `l_rang`)" +
+                    " VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}')",
+                    u.GetNick(), u.GetPwd(), u.GetName(), u.GetSurename(), u.GetGroup(), DBNull.Value, "lekt."
+                    );
+            }
+            if (u.GetGroup() == 3)
+            {
+                sql = string.Format("INSERT INTO `users`" +
+                    "(`login`, `password`, `name`, `surename`, `u_group`, `s_group`, `l_rang`)" +
+                    " VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}')",
+                    u.GetNick(), u.GetPwd(), u.GetName(), u.GetSurename(), u.GetGroup(), DBNull.Value, DBNull.Value
                     );
             }
             Exec(sql);
@@ -169,6 +185,33 @@ namespace APK
             return dt;
         }
 
+        public DataTable FillSGroupGridView()
+        {
+            dbConnection.Open();
+            MySqlDataAdapter Da = new();
+            string sql = "SELECT `id`, `group_name` FROM `s_groups` WHERE 1";
+            Da.SelectCommand = new MySqlCommand(sql, dbConnection);
+            DataTable dt = new();
+            Da.Fill(dt);
+            return dt;
+        }
+
+        public bool checkGroup(string gName)
+        {
+            string sql = string.Format("SELECT `id` FROM `s_groups` WHERE `group_name` = '{0}'", gName);
+            dbConnection.Open();
+            MySqlCommand cmd = new(sql, dbConnection);
+            bool rez = Convert.ToInt32(cmd.ExecuteScalar()) != 0;
+            dbConnection.Close();
+            return rez;
+
+        }
+
+        public void CreateGroup(string name)
+        {
+            string sql = string.Format("INSERT INTO `s_groups`(`group_name`) VALUES ('{0}')", name);
+            Exec(sql);
+        }
         public string[] getStudGroupList()
         {
             List<String> Groups = new List<String>();
@@ -185,6 +228,23 @@ namespace APK
             dbConnection.Close();
             return Groups.ToArray();
 
+        }
+
+
+        public string[] getLectList()
+        {
+            List<String> Lecturers = new List<String>();
+            string sql = "SELECT `name`, `surename`, `l_rang` FROM `users` WHERE `u_group` = 2";
+            dbConnection.Open();
+            MySqlCommand cmd = new(sql, dbConnection);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                Lecturers.Add(rdr["l_rang"].ToString() + rdr["name"].ToString() + " " +rdr["surename"].ToString());
+            }
+            dbConnection.Close();
+
+            return Lecturers.ToArray();
         }
 
     }

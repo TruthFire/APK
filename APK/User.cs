@@ -52,6 +52,11 @@
 
         }
 
+        public string GetS_Group()
+        {
+            return S_group;
+        }
+
 
     }
 }

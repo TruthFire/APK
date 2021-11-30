@@ -3,20 +3,6 @@ using MySql.Data.MySqlClient;
 using System.Data;
 using System.Collections.Generic;
 
-/* CREATE TABLE "User" (
-	"id"	INTEGER NOT NULL,
-	"nick"	TEXT NOT NULL,
-	"password"	TEXT NOT NULL,
-	"name"	TEXT NOT NULL,
-	"surename"	TEXT NOT NULL,
-	"dob"	TEXT NOT NULL,
-	"avatar"	TEXT,
-	"user_group"	INTEGER,
-	PRIMARY KEY("id" AUTOINCREMENT)
-)
-*/
-
-
 namespace APK
 {
     public class Db
@@ -29,16 +15,13 @@ namespace APK
 
          public void CreateUser(User u)
          {
-            string sql = "";//= string.Format(
-            //"INSERT INTO `users`(`login`, `password`, `name`, `surename`, `u_group`) VALUES ('{0}', '{1}', '{2}', '{3}', 1,);",
-           // u.GetNick(), u.GetPwd(), u.GetName(), u.GetSurename()
-           // );
+            string sql = "";
             if(u.GetGroup() == 1)
             {
                 sql = string.Format("INSERT INTO `users`" +
                     "(`login`, `password`, `name`, `surename`, `u_group`, `s_group`, `l_rang`)" +
                     " VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}')",
-                    u.GetNick(), u.GetPwd(), u.GetName(),u.GetSurename(), u.GetGroup(), u.GetS_Group(), DBNull.Value
+                    u.GetNick(), u.GetPwd(), u.GetName(),u.GetSurename(), u.GetGroup(), u.getInfo(), DBNull.Value
                     );
             }
             if (u.GetGroup() == 2)
@@ -46,7 +29,7 @@ namespace APK
                 sql = string.Format("INSERT INTO `users`" +
                     "(`login`, `password`, `name`, `surename`, `u_group`, `s_group`, `l_rang`)" +
                     " VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}')",
-                    u.GetNick(), u.GetPwd(), u.GetName(), u.GetSurename(), u.GetGroup(), DBNull.Value, "lekt."
+                    u.GetNick(), u.GetPwd(), u.GetName(), u.GetSurename(), u.GetGroup(), DBNull.Value, u.getInfo()
                     );
             }
             if (u.GetGroup() == 3)
@@ -93,7 +76,6 @@ namespace APK
             {
                 string name = rdr["name"].ToString();
                 string surename = rdr["surename"].ToString();
-               // DateTime dob = Convert.ToDateTime(rdr["dob"]);
                 int Group = Convert.ToInt32(rdr["u_group"]);
                 string s_group = null;
                 if(Group == 1)
@@ -117,13 +99,6 @@ namespace APK
             string sql = String.Format("DELETE FROM `Users` WHERE `id` = '{0}'", id);
             Exec(sql);
         }
-
-        /*public void UpdateAvatar(int id, string fn)
-        {
-            string sql = String.Format("UPDATE `User` SET `avatar` = '{0}' WHERE `id` = {1}", fn, id);
-            Exec(sql); 
-            
-        }*/
 
         protected void Exec(string sql)
         {
@@ -157,21 +132,6 @@ namespace APK
             cmd.ExecuteNonQuery();
             dbConnection.Close();
         }
-        
-        /*public string GetAvatar(int id)
-        {
-            string sql = string.Format("SELECT `avatar` FROM `Users` where `id` = '{0}'", id);
-            dbConnection.Open();
-            MySqlCommand cmd = new(sql, dbConnection);
-            MySqlDataReader rdr = cmd.ExecuteReader();
-            string avtr = "NoAvatar";
-            while (rdr.Read())
-            {
-                avtr = rdr["avatar"].ToString();
-            }
-            dbConnection.Close();
-            return avtr;
-        }*/
 
         public DataTable FillUserGridView()
         {
@@ -240,11 +200,132 @@ namespace APK
             MySqlDataReader rdr = cmd.ExecuteReader();
             while (rdr.Read())
             {
-                Lecturers.Add(rdr["l_rang"].ToString() + rdr["name"].ToString() + " " +rdr["surename"].ToString());
+                Lecturers.Add(rdr["l_rang"].ToString() + " " + rdr["name"].ToString() + " " +rdr["surename"].ToString());
             }
             dbConnection.Close();
 
             return Lecturers.ToArray();
+        }
+
+        protected string[] getGroupIds(string[] groups)
+        {
+            List<String> Groups = new List<String>();
+            for (int i = 0; i < groups.Length; i++)
+            {
+                string sql = string.Format("SELECT `id` FROM `s_groups` WHERE `group_name` = '{0}'", groups[i]);
+                dbConnection.Open();
+                MySqlCommand cmd = new(sql, dbConnection);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    Groups.Add(rdr["id"].ToString());
+                }
+                dbConnection.Close();
+            }
+            return Groups.ToArray();
+
+        }
+
+        public int getSubjectId(string subjectName, int l_id)
+        {
+            string sql = string.Format("SELECT `id` FROM `subjects` WHERE `name` = '{0}' AND `lecturer` = {1}", subjectName, l_id);
+            dbConnection.Open();
+            int id = 0;
+            MySqlCommand cmd = new(sql, dbConnection);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                id = Convert.ToInt32(rdr["id"]);
+            }
+            dbConnection.Close();
+            return id;
+        }
+
+        private int getLecturerId(string l)
+        {
+            string[] lSplitted = l.Split(' ');
+            string sql = string.Format("SELECT `id` FROM `users` WHERE `l_rang` = '{0}' AND `name`='{1}' AND `surename`='{2}'", lSplitted[0], lSplitted[1], lSplitted[2]);
+            int id = 0;
+            dbConnection.Open();
+            MySqlCommand cmd = new(sql, dbConnection);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                id = Convert.ToInt32(rdr["id"]);
+            }
+            dbConnection.Close();
+            return id;
+
+        }
+
+        public void addSubject(string lecturer, string json, string title, string[] groupList)
+        {
+            string[] lecturerSplitted = new string[3];
+            lecturerSplitted  = lecturer.Split(' ');
+            string sql = string.Format("SELECT `id` FROM `users` WHERE `l_rang`= '{0}' AND `name` = '{1}' AND `surename` = '{2}';",lecturerSplitted[0],lecturerSplitted[1], lecturerSplitted[2]);
+            dbConnection.Open();
+            MySqlCommand cmd = new(sql, dbConnection);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            int id = 0;
+            if(rdr.Read())
+            {
+                id = Convert.ToInt32(rdr["id"]);
+            }
+            dbConnection.Close();
+            try
+            {
+                if (id != 0)
+                {
+                    sql = string.Format("INSERT INTO `subjects`(`name`, `marks`, `lecturer`) VALUES ('{0}','{1}','{2}')", title, json, id);
+                    Exec(sql);
+                    string[] gIds = getGroupIds(groupList);
+                    int s_id = getSubjectId(title,getLecturerId(lecturer));
+
+
+                    for(int i = 0; i < gIds.Length; i++)
+                    {
+                        sql = string.Format("INSERT INTO `subject_groups`(`group_id`, `subject_id`) VALUES ('{0}','{1}')", gIds[i], s_id);
+                        Exec(sql);
+                    }
+                }
+            }
+            catch(Exception exc)
+            {
+                throw new ArgumentNullException("id klaida.\n" + exc);
+            }
+        }
+
+        public string[] getAllGroups()
+        {
+            List<String> groups = new List<String>();
+            string sql = "SELECT `group_name` FROM `s_groups` WHERE 1";
+            dbConnection.Open();
+            MySqlCommand cmd = new(sql, dbConnection);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                groups.Add(rdr["group_name"].ToString());
+            }
+            dbConnection.Close();
+
+            return groups.ToArray();
+        }
+
+        public string[] getMySubjectList(int l_id)
+        {
+            List<String> subjects = new List<String>();
+            string sql = string.Format("SELECT `name` FROM `subjects` WHERE `lecturer`={0}",l_id);
+            dbConnection.Open();
+            MySqlCommand cmd = new(sql, dbConnection);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                subjects.Add(rdr["name"].ToString());
+            }
+            dbConnection.Close();
+
+            return subjects.ToArray();
         }
 
     }

@@ -36,7 +36,7 @@ namespace APK
         private void button2_Click(object sender, EventArgs e)
         {
             Db db = new Db();
-            Person newP = new(this.textBox7.Text, this.textBox8.Text);
+            Person newP = new(this.textBox8.Text, this.textBox7.Text);
             User newUser = new(newP, textBox6.Text, textBox5.Text, 2, comboBox2.Text);
             db.CreateUser(newUser);
         }

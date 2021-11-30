@@ -74,6 +74,7 @@ namespace APK
             this.Controls.Add(this.button1);
             this.Name = "APanel";
             this.Text = "APanel";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.APanel_FormClosed_1);
             this.ResumeLayout(false);
 
         }

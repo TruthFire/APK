@@ -40,6 +40,14 @@ namespace APK
             a_s.Show();
         }
 
+        private void APanel_FormClosed_1(object sender, FormClosedEventArgs e)
+        {
+            Main m = new(curr);
+            m.Show();
+            this.Hide();
+
+        }
+
         /*public void UpdateDg()
         {
             Db db = new();

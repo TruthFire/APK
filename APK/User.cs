@@ -7,14 +7,14 @@
         protected string Pwd { get; set; }
         protected int Group { get; set; }
         protected int Id { get; set; }
-        protected string S_group { get; set; }
+        protected string Info { get; set; }
 
 
-        public User(Person p, string nick, string pwd, int group, string s_group = null)
+        public User(Person p, string nick, string pwd, int group, string extra = null)
         {
             Name = p.GetName();
             Surename = p.GetSurename();
-            S_group = s_group;
+            Info = extra;
             Nick = nick;
             Pwd = pwd;
             Group = group;
@@ -52,9 +52,9 @@
 
         }
 
-        public string GetS_Group()
+        public string getInfo()
         {
-            return S_group;
+            return Info;
         }
 
 

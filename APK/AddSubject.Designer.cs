@@ -45,6 +45,9 @@ namespace APK
             this.label9 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
@@ -56,9 +59,9 @@ namespace APK
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 23);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 15);
+            this.label1.Size = new System.Drawing.Size(77, 15);
             this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
+            this.label1.Text = "pavadinimas:";
             // 
             // textBox1
             // 
@@ -189,10 +192,11 @@ namespace APK
             // 
             // comboBox1
             // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(11, 299);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 23);
+            this.comboBox1.Size = new System.Drawing.Size(197, 23);
             this.comboBox1.TabIndex = 15;
             // 
             // label10
@@ -200,15 +204,44 @@ namespace APK
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(11, 281);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(44, 15);
+            this.label10.Size = new System.Drawing.Size(64, 15);
             this.label10.TabIndex = 16;
-            this.label10.Text = "label10";
+            this.label10.Text = "Destytojas:";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(11, 380);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(197, 23);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(11, 349);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(196, 23);
+            this.textBox2.TabIndex = 18;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(11, 330);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(158, 15);
+            this.label11.TabIndex = 19;
+            this.label11.Text = "Grupių sąrašas. Skirstuvas: [;]";
             // 
             // AddSubject
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(311, 360);
+            this.ClientSize = new System.Drawing.Size(222, 453);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.numericUpDown4);
@@ -254,5 +287,8 @@ namespace APK
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label11;
     }
 }

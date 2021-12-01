@@ -1,21 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Newtonsoft.Json;
 
 namespace APK
 {
-
-    public class MarkCoefficients {
-        public int[] Coefficients = new int[4];
-    }
-
     public partial class AddSubject : Form
     {
         public AddSubject()
@@ -23,7 +13,7 @@ namespace APK
             InitializeComponent();
             Db db = new();
             string[] lect = db.getLectList();
-            for(int i = 0; i < lect.Length; i++)
+            for (int i = 0; i < lect.Length; i++)
             {
                 comboBox1.Items.Add(lect[i]);
             }
@@ -62,5 +52,10 @@ namespace APK
                 MessageBox.Show("Koefficientu suma negali būti mažesnė arba didesnė nei 100");
             }
         }
+    }
+
+    public class MarkCoefficients
+    {
+        public int[] Coefficients = new int[4];
     }
 }

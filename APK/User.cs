@@ -59,4 +59,9 @@
 
 
     }
+
+    public class Marks
+    {
+        public int[] stud_marks = new int[4];
+    }
 }

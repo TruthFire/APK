@@ -15,7 +15,7 @@ namespace APK
         public AddUsr()
         {
             InitializeComponent();
-            Db db = new Db();
+            Db db = new();
             string[] groups;
             groups = db.getStudGroupList();
             for(int i = 0; i < groups.Length;i++)

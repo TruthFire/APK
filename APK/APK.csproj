@@ -9,7 +9,6 @@
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.27" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="System.Data.SQLite" Version="1.0.115" />
   </ItemGroup>
 
 </Project>

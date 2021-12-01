@@ -15,6 +15,10 @@ namespace APK
             {
                 button2.Visible = true;
             }
+            else if(currentUser.GetGroup() == 2)
+            {
+                button3.Visible = true;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -35,6 +39,13 @@ namespace APK
             ap.Show();
             this.Hide();
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            MySubjects ms = new(currentUser);
+            ms.Show();
+            this.Hide();
         }
     }
 }

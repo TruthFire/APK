@@ -15,7 +15,7 @@ namespace APK
             {
                 button2.Visible = true;
             }
-            else if(currentUser.GetGroup() != 3)
+            else if (currentUser.GetGroup() != 3)
             {
                 button3.Visible = true;
             }

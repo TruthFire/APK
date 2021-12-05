@@ -17,8 +17,8 @@ namespace APK
             {
                 comboBox1.Items.Add(lect[i]);
             }
-            if(lect.Length > 0)
-            comboBox1.SelectedIndex = 0;
+            if (lect.Length > 0)
+                comboBox1.SelectedIndex = 0;
 
         }
 

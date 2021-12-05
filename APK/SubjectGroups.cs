@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace APK
@@ -17,7 +10,7 @@ namespace APK
         public SubjectGroups(User u, string subject)
         {
             curr = u;
-            
+
             InitializeComponent();
             Db db = new();
             S_id = db.getSubjectId(subject, u.GetId());

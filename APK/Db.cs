@@ -1,8 +1,8 @@
-﻿using System;
-using MySql.Data.MySqlClient;
-using System.Data;
-using System.Collections.Generic;
+﻿using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace APK
 {
@@ -11,18 +11,18 @@ namespace APK
         MySqlConnection dbConnection = new(@"server=localhost;userid=root;password=;database=APK");
         public Db()
         {
-   
+
         }
 
-         public void CreateUser(User u)
-         {
+        public void CreateUser(User u)
+        {
             string sql = "";
-            if(u.GetGroup() == 1)
+            if (u.GetGroup() == 1)
             {
                 sql = string.Format("INSERT INTO `users`" +
                     "(`login`, `password`, `name`, `surename`, `u_group`, `s_group`, `l_rang`)" +
                     " VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}')",
-                    u.GetNick(), u.GetPwd(), u.GetName(),u.GetSurename(), u.GetGroup(), u.GetInfo(), DBNull.Value
+                    u.GetNick(), u.GetPwd(), u.GetName(), u.GetSurename(), u.GetGroup(), u.GetInfo(), DBNull.Value
                     );
             }
             if (u.GetGroup() == 2)
@@ -42,7 +42,7 @@ namespace APK
                     );
             }
             Exec(sql);
-         }
+        }
 
         public bool CheckId(int id)
         {
@@ -60,7 +60,7 @@ namespace APK
             string sql = string.Format("UPDATE `users` SET " +
                 "`login`='{0}',`password`='{1}',`name`='{2}',`surename`='{3}',`u_group`='1',`s_group`='{4}',`l_rang`='{5}' " +
                 "WHERE `id`={6}", u.GetNick(), u.GetPwd(), u.GetName(), u.GetSurename(), u.GetInfo(), DBNull.Value, u.GetId());
-        } 
+        }
 
         public bool CheckNick(string nick)
         {
@@ -75,7 +75,7 @@ namespace APK
 
 
         public int TryAuth(string nick, string pwd)
-        { 
+        {
             string sql = string.Format("SELECT `id` FROM `Users` WHERE (`login`='{0}' AND `password`='{1}')", nick, pwd);
             dbConnection.Open();
             MySqlCommand cmd = new(sql, dbConnection);
@@ -103,7 +103,7 @@ namespace APK
 
         public User GetUser(int id)
         {
-           
+
             string sql = string.Format("SELECT * FROM `Users` WHERE `id` = '{0}'", id);
             dbConnection.Open();
             MySqlCommand cmd = new(sql, dbConnection);
@@ -116,7 +116,7 @@ namespace APK
                 string s_group = null;
                 string nick = rdr["login"].ToString();
                 string pwd = rdr["password"].ToString();
-                if(Group == 1)
+                if (Group == 1)
                 {
                     s_group = rdr["s_group"].ToString();
                 }
@@ -150,7 +150,7 @@ namespace APK
 
         public bool CheckPwd(int id, string pwd)
         {
-            
+
             string sql = String.Format("SELECT `password` FROM `Users` WHERE `id` = '{0}'", id);
             dbConnection.Open();
             MySqlCommand cmd = new(sql, dbConnection);
@@ -158,7 +158,7 @@ namespace APK
             string pass = "";
             while (rdr.Read())
             {
-                   pass = rdr["password"].ToString();
+                pass = rdr["password"].ToString();
             }
             dbConnection.Close();
             return pass == pwd;
@@ -222,7 +222,7 @@ namespace APK
             MySqlCommand cmd = new(sql, dbConnection);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
-            while(rdr.Read())
+            while (rdr.Read())
             {
                 Groups.Add(rdr["group_name"].ToString());
             }
@@ -241,7 +241,7 @@ namespace APK
             MySqlDataReader rdr = cmd.ExecuteReader();
             while (rdr.Read())
             {
-                Lecturers.Add(rdr["l_rang"].ToString() + " " + rdr["name"].ToString() + " " +rdr["surename"].ToString());
+                Lecturers.Add(rdr["l_rang"].ToString() + " " + rdr["name"].ToString() + " " + rdr["surename"].ToString());
             }
             dbConnection.Close();
 
@@ -271,12 +271,11 @@ namespace APK
         public int getSubjectIdByGroup(int sGroupId, string subject)
         {
             string sql = string.Format("SELECT `id` FROM `subjects` WHERE `name`='{0}'", subject);
-            //string sql = string.Format("SELECT `id` FROM `subject_groups` WHERE `group_id`={0} AND `subject_id`='{1}'", subject, sGroupId);
             dbConnection.Open();
             MySqlCommand cmd = new(sql, dbConnection);
             MySqlDataReader rdr = cmd.ExecuteReader();
             int id = 0;
-            while(rdr.Read())
+            while (rdr.Read())
             {
                 id = (int)rdr["id"];
             }
@@ -321,12 +320,12 @@ namespace APK
         public void addSubject(string lecturer, string json, string title, string[] groupList)
         {
             string[] lecturerSplitted = lecturer.Split(' ');
-            string sql = string.Format("SELECT `id` FROM `users` WHERE `l_rang`= '{0}' AND `name` = '{1}' AND `surename` = '{2}';",lecturerSplitted[0],lecturerSplitted[1], lecturerSplitted[2]);
+            string sql = string.Format("SELECT `id` FROM `users` WHERE `l_rang`= '{0}' AND `name` = '{1}' AND `surename` = '{2}';", lecturerSplitted[0], lecturerSplitted[1], lecturerSplitted[2]);
             dbConnection.Open();
             MySqlCommand cmd = new(sql, dbConnection);
             MySqlDataReader rdr = cmd.ExecuteReader();
             int id = 0;
-            if(rdr.Read())
+            if (rdr.Read())
             {
                 id = Convert.ToInt32(rdr["id"]);
             }
@@ -338,17 +337,17 @@ namespace APK
                     sql = string.Format("INSERT INTO `subjects`(`name`, `marks`, `lecturer`) VALUES ('{0}','{1}','{2}')", title, json, id);
                     Exec(sql);
                     string[] gIds = getGroupIds(groupList);
-                    int s_id = getSubjectId(title,getLecturerId(lecturer));
+                    int s_id = getSubjectId(title, getLecturerId(lecturer));
 
 
-                    for(int i = 0; i < gIds.Length; i++)
+                    for (int i = 0; i < gIds.Length; i++)
                     {
                         sql = string.Format("INSERT INTO `subject_groups`(`group_id`, `subject_id`) VALUES ('{0}','{1}')", gIds[i], s_id);
                         Exec(sql);
                     }
                 }
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 throw new ArgumentNullException("id klaida.\n" + exc);
             }
@@ -384,9 +383,9 @@ namespace APK
                 subject_ids.Add((int)rdr["subject_id"]);
             }
             rdr.Close();
-            foreach(int s_id in subject_ids)
+            foreach (int s_id in subject_ids)
             {
-                sql = string.Format("SELECT `name` FROM `subjects` WHERE `id`={0}",s_id);
+                sql = string.Format("SELECT `name` FROM `subjects` WHERE `id`={0}", s_id);
                 cmd = new(sql, dbConnection);
                 rdr = cmd.ExecuteReader();
                 while (rdr.Read())
@@ -399,14 +398,14 @@ namespace APK
             dbConnection.Close();
 
             return subjects.ToArray();
-            
+
 
         }
 
         public string[] getMySubjectTitles(int l_id)
         {
             List<String> subjects = new List<String>();
-            string sql = string.Format("SELECT `name` FROM `subjects` WHERE `lecturer`={0}",l_id);
+            string sql = string.Format("SELECT `name` FROM `subjects` WHERE `lecturer`={0}", l_id);
             dbConnection.Open();
             MySqlCommand cmd = new(sql, dbConnection);
             MySqlDataReader rdr = cmd.ExecuteReader();
@@ -440,10 +439,10 @@ namespace APK
             List<String> groups = new();
             List<int> g_ids = GetSubjectGroupsIds(s_id);
             dbConnection.Open();
-            foreach(int id in g_ids)
+            foreach (int id in g_ids)
             {
                 string sql = string.Format("SELECT `group_name` FROM `s_groups` WHERE `id`={0}", id);
-                
+
                 MySqlCommand cmd = new(sql, dbConnection);
                 MySqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
@@ -451,7 +450,7 @@ namespace APK
                     groups.Add(rdr["group_name"].ToString());
                 }
                 rdr.Close();
-                
+
             }
             dbConnection.Close();
 
@@ -500,7 +499,7 @@ namespace APK
             MySqlCommand cmd = new(sql, dbConnection);
             bool rez = Convert.ToInt32(cmd.ExecuteScalar()) != 0;
             dbConnection.Close();
-            if(rez)
+            if (rez)
             {
                 sql = string.Format("SELECT `student_marks` FROM `marks` WHERE `student_id`={0} AND `subject_id`={1}", stud_id, sub_id);
                 dbConnection.Open();
@@ -508,7 +507,7 @@ namespace APK
                 MySqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
-                    
+
                     json = rdr["student_marks"].ToString();
                     m = JsonConvert.DeserializeObject<Marks>(json);
                     allmarks = m.stud_marks;
@@ -516,13 +515,13 @@ namespace APK
                 dbConnection.Close();
                 rdr.Close();
             }
-            else if(!rez)
+            else if (!rez)
             {
                 Marks sm = new();
-                sm.stud_marks = new int[]{ 0,0,0,0 };
+                sm.stud_marks = new int[] { 0, 0, 0, 0 };
                 json = JsonConvert.SerializeObject(sm);
                 allmarks = sm.stud_marks;
-                sql = string.Format("INSERT INTO `marks`(`subject_id`, `student_id`, `student_marks`) VALUES ('{0}','{1}','{2}')",sub_id, stud_id, json);
+                sql = string.Format("INSERT INTO `marks`(`subject_id`, `student_id`, `student_marks`) VALUES ('{0}','{1}','{2}')", sub_id, stud_id, json);
                 Exec(sql);
             }
             return allmarks;
@@ -553,8 +552,8 @@ namespace APK
 
         public void UpdateMarks(int student_id, int subject_id, string marks)
         {
-            string sql = string.Format("UPDATE `marks` SET `student_marks`='{0}' WHERE `subject_id`={1} AND `student_id` = {2}",marks, subject_id, student_id);
-            Exec(sql); 
+            string sql = string.Format("UPDATE `marks` SET `student_marks`='{0}' WHERE `subject_id`={1} AND `student_id` = {2}", marks, subject_id, student_id);
+            Exec(sql);
         }
 
     }

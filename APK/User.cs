@@ -18,13 +18,13 @@
             Nick = nick;
             Pwd = pwd;
             Group = group;
-            if(id == -1)
-            Id = GetId();
+            if (id == -1)
+                Id = GetId();
             else
             {
                 Id = id;
             }
-            
+
         }
 
         public string GetNick()

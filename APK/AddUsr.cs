@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace APK
@@ -18,7 +11,7 @@ namespace APK
             Db db = new();
             string[] groups;
             groups = db.getStudGroupList();
-            for(int i = 0; i < groups.Length;i++)
+            for (int i = 0; i < groups.Length; i++)
             {
                 comboBox1.Items.Add(groups[i]);
             }

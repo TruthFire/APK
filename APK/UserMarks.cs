@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using System;
 using System.Windows.Forms;
-using Newtonsoft.Json;
 
 namespace APK
 {
@@ -18,7 +11,7 @@ namespace APK
 
         public UserMarks(string stud_name, string stud_group, int subject_id, User curr)
         {
-            
+
             Db db = new();
             string[] tmp = stud_name.Split(' ');
             studId = db.GetUserId(tmp[0], tmp[1], stud_group);
@@ -36,14 +29,14 @@ namespace APK
             textBox3.Visible = false;
             textBox4.Visible = false;
             textBox5.Visible = false;
-            
+
             label1.Text = stud_name;
             numericUpDown1.Value = marks[0];
             numericUpDown2.Value = marks[1];
             numericUpDown3.Value = marks[2];
             numericUpDown4.Value = marks[3];
             numericUpDown5.Value = (decimal)val;
-            
+
         }
 
         public UserMarks(User u, string subject)
@@ -59,7 +52,7 @@ namespace APK
                 val += (double)marks[i] * ((double)coefficietns[i] / (double)100);
             }
 
-            //db.GetStudentMarks(u.GetId());
+
             InitializeComponent();
             button1.Visible = false;
             numericUpDown1.Visible = false;
@@ -76,8 +69,8 @@ namespace APK
             textBox1.ReadOnly = true;
             textBox2.ReadOnly = true;
             textBox3.ReadOnly = true;
-            textBox4.ReadOnly = true; 
-            textBox5.ReadOnly = true; 
+            textBox4.ReadOnly = true;
+            textBox5.ReadOnly = true;
         }
 
 

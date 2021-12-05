@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace APK
@@ -19,7 +12,7 @@ namespace APK
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+
             Db db = new();
             if (!db.checkGroup(textBox1.Text))
             {

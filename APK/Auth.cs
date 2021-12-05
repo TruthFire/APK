@@ -8,8 +8,6 @@ namespace APK
         public Auth()
         {
             InitializeComponent();
-            //Db db = new();
-            //MessageBox.Show(db.GetStudentMarks(1, 7)[0]);
 
         }
 

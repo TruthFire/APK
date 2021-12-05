@@ -10,7 +10,7 @@
         protected string Info { get; set; }
 
 
-        public User(Person p, string nick, string pwd, int group, string extra = null)
+        public User(Person p, string nick, string pwd, int group, string extra = null, int id = -1)
         {
             Name = p.GetName();
             Surename = p.GetSurename();
@@ -18,7 +18,12 @@
             Nick = nick;
             Pwd = pwd;
             Group = group;
+            if(id == -1)
             Id = GetId();
+            else
+            {
+                Id = id;
+            }
             
         }
 
@@ -52,7 +57,7 @@
 
         }
 
-        public string getInfo()
+        public string GetInfo()
         {
             return Info;
         }

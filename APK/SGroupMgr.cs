@@ -34,5 +34,17 @@ namespace APK
             AddGroup ag = new();
             ag.Show();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Db db = new();
+            db.RemoveGroup(Convert.ToInt32(textBox1.Text));
+        }
+
+        private void SGroupMgr_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            APanel ap = new(curr);
+            ap.Show();
+        }
     }
 }

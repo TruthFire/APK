@@ -43,7 +43,7 @@ namespace APK
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.button2 = new System.Windows.Forms.Button();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -54,10 +54,20 @@ namespace APK
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.textBox8 = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -204,15 +214,15 @@ namespace APK
             this.tabPage2.Text = "Destytojas";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // tabPage3
+            // button2
             // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 24);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(227, 316);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Administratorius";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.button2.Location = new System.Drawing.Point(7, 255);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(213, 48);
+            this.button2.TabIndex = 20;
+            this.button2.Text = "sukurti";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // comboBox2
             // 
@@ -300,15 +310,98 @@ namespace APK
             this.textBox8.Size = new System.Drawing.Size(213, 23);
             this.textBox8.TabIndex = 10;
             // 
-            // button2
+            // tabPage3
             // 
-            this.button2.Location = new System.Drawing.Point(7, 255);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(213, 48);
-            this.button2.TabIndex = 20;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.tabPage3.Controls.Add(this.button3);
+            this.tabPage3.Controls.Add(this.label11);
+            this.tabPage3.Controls.Add(this.textBox9);
+            this.tabPage3.Controls.Add(this.label12);
+            this.tabPage3.Controls.Add(this.textBox10);
+            this.tabPage3.Controls.Add(this.label13);
+            this.tabPage3.Controls.Add(this.textBox11);
+            this.tabPage3.Controls.Add(this.label14);
+            this.tabPage3.Controls.Add(this.textBox12);
+            this.tabPage3.Location = new System.Drawing.Point(4, 24);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(227, 316);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Administratorius";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(7, 142);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(69, 15);
+            this.label11.TabIndex = 15;
+            this.label11.Text = "Slaptažodis:";
+            // 
+            // textBox9
+            // 
+            this.textBox9.Location = new System.Drawing.Point(7, 160);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(213, 23);
+            this.textBox9.TabIndex = 14;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(7, 92);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(114, 15);
+            this.label12.TabIndex = 13;
+            this.label12.Text = "Prisijungimo vardas:";
+            // 
+            // textBox10
+            // 
+            this.textBox10.Location = new System.Drawing.Point(7, 110);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new System.Drawing.Size(213, 23);
+            this.textBox10.TabIndex = 12;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(7, 47);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(49, 15);
+            this.label13.TabIndex = 11;
+            this.label13.Text = "Pavarde";
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(7, 65);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(213, 23);
+            this.textBox11.TabIndex = 10;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(7, 3);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(41, 15);
+            this.label14.TabIndex = 9;
+            this.label14.Text = "Vardas";
+            // 
+            // textBox12
+            // 
+            this.textBox12.Location = new System.Drawing.Point(7, 21);
+            this.textBox12.Name = "textBox12";
+            this.textBox12.Size = new System.Drawing.Size(213, 23);
+            this.textBox12.TabIndex = 8;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(6, 256);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(213, 48);
+            this.button3.TabIndex = 21;
+            this.button3.Text = "sukurti";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // AddUsr
             // 
@@ -323,6 +416,8 @@ namespace APK
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -355,5 +450,14 @@ namespace APK
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox textBox12;
     }
 }

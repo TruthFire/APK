@@ -42,5 +42,19 @@ namespace APK
             AddUsr au = new();
             au.Show(); //
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Db db = new();
+            if (db.CheckId(Convert.ToInt32(textBox1.Text)))
+            {
+                UserEditor ue = new(Curr, Convert.ToInt32(textBox1.Text));
+                ue.Show();
+            }
+            else
+            {
+                MessageBox.Show("Tokio ID Nera");
+            }
+        }
     }
 }

@@ -30,12 +30,5 @@ namespace APK
             }
 
         }
-
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Register reg = new();
-            reg.Show();
-            Hide();
-        }
     }
 }
